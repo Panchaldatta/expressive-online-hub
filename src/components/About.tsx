@@ -11,7 +11,7 @@ const About = () => {
         
         <div className="prose prose-lg text-gray-600 mb-8">
           <p className="mb-4">
-            I'm a passionate developer with 5+ years of experience creating digital solutions 
+            I'm a passionate developer with 1+ years of experience creating digital solutions 
             that combine technical excellence with thoughtful design. I love turning complex 
             problems into simple, beautiful solutions.
           </p>
@@ -24,8 +24,8 @@ const About = () => {
           </p>
           
           <ul className="list-disc pl-5 space-y-2">
-            <li>5+ years of professional experience</li>
-            <li>20+ successful projects delivered</li>
+            <li>1+ years of professional experience</li>
+            <li>7+ successful projects delivered</li>
             <li>Continuous learning mindset</li>
           </ul>
         </div>

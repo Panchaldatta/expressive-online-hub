@@ -34,17 +34,17 @@ const Contact = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <Mail size={18} className="text-gray-400" />
-              <span className="text-gray-600">john.doe@example.com</span>
+              <span className="text-gray-600">dattadevc@gmail.com</span>
             </div>
             
-            <div className="flex items-center gap-3">
+            {/* <div className="flex items-center gap-3">
               <Phone size={18} className="text-gray-400" />
-              <span className="text-gray-600">+1 (555) 123-4567</span>
-            </div>
+              <span className="text-gray-600">+91</span>
+            </div> */}
             
             <div className="flex items-center gap-3">
               <MapPin size={18} className="text-gray-400" />
-              <span className="text-gray-600">San Francisco, CA</span>
+              <span className="text-gray-600">Pune ,India</span>
             </div>
           </div>
           
