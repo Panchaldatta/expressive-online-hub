@@ -2,6 +2,7 @@ import React from "react";
 import { ExternalLink, Github, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import GitHubContributions from "./GitHubContributions";
 
 const Projects = () => {
   const projects = [
@@ -88,11 +89,16 @@ const Projects = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-5xl font-bold bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text text-transparent mb-4">
-            Featured Projects
+            Projects & Contributions
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             A showcase of my latest work spanning full-stack development, AI integration, and modern web technologies
           </p>
+        </div>
+
+        {/* GitHub Contributions Section */}
+        <div className="mb-20">
+          <GitHubContributions username="yourusername" />
         </div>
 
         {/* Featured Projects Grid */}
