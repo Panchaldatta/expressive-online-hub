@@ -11,16 +11,20 @@ import AnimatedBackground from '../components/AnimatedBackground';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-transparent relative">
+    <div className="min-h-screen bg-transparent relative w-full">
       <AnimatedBackground />
-      <div className="relative z-10">
+      <div className="relative z-10 w-full">
         <Header />
-        <main className="max-w-4xl mx-auto px-6 pt-20">
-          <Hero />
-          <About />
+        <main className="w-full pt-20">
+          <div className="max-w-4xl mx-auto px-6">
+            <Hero />
+            <About />
+          </div>
           <Projects />
-          <Skills />
-          <Contact />
+          <div className="max-w-4xl mx-auto px-6">
+            <Skills />
+            <Contact />
+          </div>
         </main>
         <Footer />
       </div>

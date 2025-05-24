@@ -22,11 +22,11 @@ const Header = () => {
   ];
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+    <header className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
       isScrolled ? 'bg-white border-b border-gray-200' : 'bg-white'
     }`}>
-      <nav className="max-w-4xl mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
+      <nav className="w-full px-6 py-4">
+        <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="text-xl font-bold text-gray-900">
             Portfolio
           </div>
@@ -56,7 +56,7 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 py-4 border-t border-gray-200 animate-fade-in">
-            <div className="flex flex-col space-y-4">
+            <div className="max-w-4xl mx-auto flex flex-col space-y-4">
               {navItems.map((item) => (
                 <a
                   key={item.name}
