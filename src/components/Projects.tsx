@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import GitHubContributions from "./GitHubContributions";
+import GradientImageCard from "./GradientImageCard";
 
 const Projects = () => {
   const projects = [
@@ -19,6 +20,12 @@ const Projects = () => {
       category: "Full Stack",
       gradient: "from-blue-500 via-purple-500 to-pink-500",
       image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80",
+      images: [
+        "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
+      ],
+      date: "26 December 2023",
       featured: true
     },
     {
@@ -33,6 +40,11 @@ const Projects = () => {
       category: "Frontend",
       gradient: "from-emerald-500 via-teal-500 to-cyan-500",
       image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?auto=format&fit=crop&w=800&q=80",
+      images: [
+        "https://images.unsplash.com/photo-1611224923853-80b023f02d71?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80"
+      ],
+      date: "15 November 2023",
       featured: true
     },
     {
@@ -47,6 +59,11 @@ const Projects = () => {
       category: "Frontend",
       gradient: "from-orange-500 via-red-500 to-pink-500",
       image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?auto=format&fit=crop&w=800&q=80",
+      images: [
+        "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1592210454359-9043f067919b?auto=format&fit=crop&w=800&q=80"
+      ],
+      date: "08 October 2023",
       featured: true
     },
     {
@@ -58,7 +75,9 @@ const Projects = () => {
       demo: "#",
       status: "Development",
       category: "Full Stack",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
+      gradient: "from-indigo-500 via-purple-500 to-pink-500",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+      date: "22 September 2023"
     },
     {
       id: 5,
@@ -69,7 +88,9 @@ const Projects = () => {
       demo: "#",
       status: "Live",
       category: "AI/ML",
-      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80"
+      gradient: "from-violet-500 via-purple-500 to-blue-500",
+      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80",
+      date: "10 August 2023"
     },
     {
       id: 6,
@@ -80,7 +101,9 @@ const Projects = () => {
       demo: "#",
       status: "Private",
       category: "Backend",
-      image: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=800&q=80"
+      gradient: "from-yellow-500 via-orange-500 to-red-500",
+      image: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=800&q=80",
+      date: "05 July 2023"
     }
   ];
 
@@ -131,85 +154,9 @@ const Projects = () => {
           
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
             {featuredProjects.map((project, index) => (
-              <Card 
-                key={project.id} 
-                className={`group relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all duration-500 bg-white ${
-                  index === 0 ? 'xl:col-span-2 xl:row-span-2' : ''
-                }`}
-              >
-                {/* Project Image */}
-                <div className={`relative overflow-hidden ${index === 0 ? 'h-80' : 'h-48'}`}>
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  
-                  {/* Status Badge */}
-                  <div className="absolute top-4 right-4">
-                    <Badge className={`${getStatusColor(project.status)} border font-medium`}>
-                      {project.status}
-                    </Badge>
-                  </div>
-                  
-                  {/* Play Button Overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30">
-                      <Play size={20} />
-                      Preview
-                    </Button>
-                  </div>
-                </div>
-
-                <CardContent className={`${index === 0 ? 'p-8' : 'p-6'}`}>
-                  <div className="flex items-center justify-between mb-3">
-                    <Badge variant="secondary" className="text-xs font-medium">
-                      {project.category}
-                    </Badge>
-                  </div>
-                  
-                  <h3 className={`font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors ${
-                    index === 0 ? 'text-3xl' : 'text-xl'
-                  }`}>
-                    {project.title}
-                  </h3>
-                  
-                  <p className={`text-gray-600 mb-6 leading-relaxed ${
-                    index === 0 ? 'text-lg' : 'text-sm'
-                  }`}>
-                    {index === 0 ? project.longDescription : project.description}
-                  </p>
-
-                  {/* Tech Stack */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {project.tech.slice(0, index === 0 ? 6 : 4).map((tech, techIndex) => (
-                      <span
-                        key={techIndex}
-                        className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium hover:bg-gray-200 transition-colors"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Links */}
-                  <div className="flex gap-3">
-                    <Button variant="outline" size="sm" asChild>
-                      <a href={project.github} className="flex items-center gap-2">
-                        <Github size={16} />
-                        Code
-                      </a>
-                    </Button>
-                    <Button size="sm" asChild className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                      <a href={project.demo} className="flex items-center gap-2">
-                        <ExternalLink size={16} />
-                        Live Demo
-                      </a>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              <div key={project.id} className={index === 0 ? 'xl:col-span-2 xl:row-span-2' : ''}>
+                <GradientImageCard project={project} featured={index === 0} />
+              </div>
             ))}
           </div>
         </div>
@@ -219,69 +166,7 @@ const Projects = () => {
           <h3 className="text-3xl font-bold text-gray-900 mb-8 text-center">More Projects</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {otherProjects.map((project) => (
-              <Card key={project.id} className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
-                <div className="relative h-48 overflow-hidden">
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                  
-                  <div className="absolute top-3 right-3">
-                    <Badge className={`${getStatusColor(project.status)} border text-xs`}>
-                      {project.status}
-                    </Badge>
-                  </div>
-                </div>
-
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <Badge variant="secondary" className="text-xs">
-                      {project.category}
-                    </Badge>
-                  </div>
-                  
-                  <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                    {project.title}
-                  </h4>
-                  
-                  <p className="text-gray-600 text-sm mb-4 leading-relaxed">
-                    {project.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tech.slice(0, 3).map((tech, index) => (
-                      <span
-                        key={index}
-                        className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {project.tech.length > 3 && (
-                      <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium">
-                        +{project.tech.length - 3}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="flex gap-3">
-                    <Button variant="ghost" size="sm" asChild>
-                      <a href={project.github} className="flex items-center gap-1 text-xs">
-                        <Github size={14} />
-                        Code
-                      </a>
-                    </Button>
-                    <Button variant="ghost" size="sm" asChild>
-                      <a href={project.demo} className="flex items-center gap-1 text-xs text-blue-600">
-                        <ExternalLink size={14} />
-                        Demo
-                      </a>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              <GradientImageCard key={project.id} project={project} />
             ))}
           </div>
         </div>
