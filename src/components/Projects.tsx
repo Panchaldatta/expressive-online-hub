@@ -1,7 +1,8 @@
 import React from "react";
-import { ExternalLink, Github, ArrowRight } from "lucide-react";
+import { ExternalLink, Github, ArrowRight, Play, Code2, Sparkles } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import GitHubContributions from "./GitHubContributions";
 
 const Projects = () => {
@@ -16,7 +17,9 @@ const Projects = () => {
       demo: "#",
       status: "Live",
       category: "Full Stack",
-      gradient: "from-blue-500 via-purple-500 to-pink-500"
+      gradient: "from-blue-500 via-purple-500 to-pink-500",
+      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80",
+      featured: true
     },
     {
       id: 2,
@@ -28,7 +31,9 @@ const Projects = () => {
       demo: "#",
       status: "Beta",
       category: "Frontend",
-      gradient: "from-emerald-500 via-teal-500 to-cyan-500"
+      gradient: "from-emerald-500 via-teal-500 to-cyan-500",
+      image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?auto=format&fit=crop&w=800&q=80",
+      featured: true
     },
     {
       id: 3,
@@ -40,181 +45,204 @@ const Projects = () => {
       demo: "#",
       status: "Live",
       category: "Frontend",
-      gradient: "from-orange-500 via-red-500 to-pink-500"
+      gradient: "from-orange-500 via-red-500 to-pink-500",
+      image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?auto=format&fit=crop&w=800&q=80",
+      featured: true
     },
     {
       id: 4,
       title: "Social Media Analytics",
       description: "Comprehensive analytics dashboard for social media with real-time metrics and insights.",
-      longDescription: "Advanced analytics platform providing deep insights into social media performance, engagement tracking, and automated reporting features.",
       tech: ["Angular", "D3.js", "Express", "PostgreSQL"],
       github: "#",
       demo: "#",
       status: "Development",
       category: "Full Stack",
-      gradient: "from-violet-500 via-indigo-500 to-blue-500"
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
     },
     {
       id: 5,
       title: "AI Content Generator",
       description: "AI-powered content creation tool for blogs, marketing copy, and social media posts.",
-      longDescription: "Leverages advanced AI models to generate high-quality content for various use cases, including SEO optimization and brand voice consistency.",
       tech: ["Next.js", "OpenAI API", "Prisma", "Vercel"],
       github: "#",
       demo: "#",
       status: "Live",
       category: "AI/ML",
-      gradient: "from-green-500 via-emerald-500 to-teal-500"
+      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80"
     },
     {
       id: 6,
       title: "Crypto Trading Bot",
       description: "Automated trading bot with advanced algorithms and risk management features.",
-      longDescription: "Sophisticated trading bot with machine learning algorithms, portfolio optimization, and comprehensive risk management tools for cryptocurrency markets.",
       tech: ["Python", "TensorFlow", "Binance API", "Redis"],
       github: "#",
       demo: "#",
       status: "Private",
       category: "Backend",
-      gradient: "from-yellow-500 via-orange-500 to-red-500"
+      image: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=800&q=80"
     }
   ];
 
-  const featuredProjects = projects.slice(0, 3);
-  const otherProjects = projects.slice(3);
+  const featuredProjects = projects.filter(p => p.featured);
+  const otherProjects = projects.filter(p => !p.featured);
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'Live': return 'bg-green-100 text-green-800 border-green-200';
+      case 'Beta': return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'Development': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'Private': return 'bg-gray-100 text-gray-800 border-gray-200';
+      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
 
   return (
-    <section id="projects" className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-100 w-full">
+    <section id="projects" className="py-24 bg-gradient-to-b from-white via-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text text-transparent mb-4">
-            Projects & Contributions
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full mb-6">
+            <Code2 size={16} className="text-blue-600" />
+            <span className="text-sm font-medium text-blue-600">My Work</span>
+          </div>
+          
+          <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+            Featured <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Projects</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            A showcase of my latest work spanning full-stack development, AI integration, and modern web technologies
+          
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            A collection of my latest work showcasing modern web development, 
+            innovative solutions, and creative problem-solving.
           </p>
         </div>
 
-        {/* GitHub Contributions Section */}
-        <div className="mb-20">
-          <GitHubContributions username="yourusername" />
+        {/* GitHub Contributions */}
+        <div className="mb-24">
+          <GitHubContributions username="dattadevc" />
         </div>
 
-        {/* Featured Projects Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20">
-          {featuredProjects.map((project, index) => (
-            <div
-              key={project.id}
-              className={`group relative ${index === 0 ? 'lg:col-span-2 lg:row-span-2' : ''}`}
-            >
-              <Card className="h-full overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all duration-500 bg-white/80 backdrop-blur-sm">
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
-                
-                <CardContent className="p-0 h-full">
-                  {/* Project Image/Video Area */}
-                  <div className="relative h-48 lg:h-64 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-20`} />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-6xl font-bold text-white/50">
-                        {project.title.split(' ').map(word => word[0]).join('')}
-                      </div>
-                    </div>
-                    
-                    {/* Status Badge */}
-                    <div className="absolute top-4 right-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        project.status === 'Live' ? 'bg-green-100 text-green-800' :
-                        project.status === 'Beta' ? 'bg-blue-100 text-blue-800' :
-                        project.status === 'Development' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-gray-100 text-gray-800'
-                      }`}>
-                        {project.status}
+        {/* Featured Projects */}
+        <div className="mb-20">
+          <div className="flex items-center gap-3 mb-12">
+            <Sparkles className="text-yellow-500" size={24} />
+            <h3 className="text-3xl font-bold text-gray-900">Featured Work</h3>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+            {featuredProjects.map((project, index) => (
+              <Card 
+                key={project.id} 
+                className={`group relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all duration-500 bg-white ${
+                  index === 0 ? 'xl:col-span-2 xl:row-span-2' : ''
+                }`}
+              >
+                {/* Project Image */}
+                <div className={`relative overflow-hidden ${index === 0 ? 'h-80' : 'h-48'}`}>
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  
+                  {/* Status Badge */}
+                  <div className="absolute top-4 right-4">
+                    <Badge className={`${getStatusColor(project.status)} border font-medium`}>
+                      {project.status}
+                    </Badge>
+                  </div>
+                  
+                  {/* Play Button Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30">
+                      <Play size={20} />
+                      Preview
+                    </Button>
+                  </div>
+                </div>
+
+                <CardContent className={`${index === 0 ? 'p-8' : 'p-6'}`}>
+                  <div className="flex items-center justify-between mb-3">
+                    <Badge variant="secondary" className="text-xs font-medium">
+                      {project.category}
+                    </Badge>
+                  </div>
+                  
+                  <h3 className={`font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors ${
+                    index === 0 ? 'text-3xl' : 'text-xl'
+                  }`}>
+                    {project.title}
+                  </h3>
+                  
+                  <p className={`text-gray-600 mb-6 leading-relaxed ${
+                    index === 0 ? 'text-lg' : 'text-sm'
+                  }`}>
+                    {index === 0 ? project.longDescription : project.description}
+                  </p>
+
+                  {/* Tech Stack */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.tech.slice(0, index === 0 ? 6 : 4).map((tech, techIndex) => (
+                      <span
+                        key={techIndex}
+                        className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium hover:bg-gray-200 transition-colors"
+                      >
+                        {tech}
                       </span>
-                    </div>
+                    ))}
                   </div>
 
-                  {/* Content */}
-                  <div className="p-6 lg:p-8">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
-                        {project.category}
-                      </span>
-                    </div>
-                    
-                    <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-purple-600 group-hover:to-pink-600 transition-all duration-300">
-                      {project.title}
-                    </h3>
-                    
-                    <HoverCard>
-                      <HoverCardTrigger asChild>
-                        <p className="text-gray-600 mb-6 leading-relaxed cursor-pointer hover:text-gray-800 transition-colors">
-                          {project.description}
-                        </p>
-                      </HoverCardTrigger>
-                      <HoverCardContent className="w-80">
-                        <p className="text-sm text-gray-700">{project.longDescription}</p>
-                      </HoverCardContent>
-                    </HoverCard>
-
-                    {/* Tech Stack */}
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {project.tech.map((tech, techIndex) => (
-                        <span
-                          key={techIndex}
-                          className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Links */}
-                    <div className="flex gap-4">
-                      <a
-                        href={project.github}
-                        className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-all duration-300 hover:scale-105"
-                      >
-                        <Github size={18} />
-                        <span>Code</span>
+                  {/* Links */}
+                  <div className="flex gap-3">
+                    <Button variant="outline" size="sm" asChild>
+                      <a href={project.github} className="flex items-center gap-2">
+                        <Github size={16} />
+                        Code
                       </a>
-                      <a
-                        href={project.demo}
-                        className={`flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${project.gradient} text-white rounded-lg hover:shadow-lg transition-all duration-300 hover:scale-105`}
-                      >
-                        <ExternalLink size={18} />
-                        <span>Live Demo</span>
+                    </Button>
+                    <Button size="sm" asChild className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                      <a href={project.demo} className="flex items-center gap-2">
+                        <ExternalLink size={16} />
+                        Live Demo
                       </a>
-                    </div>
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Other Projects */}
-        <div className="mb-12">
+        <div className="mb-16">
           <h3 className="text-3xl font-bold text-gray-900 mb-8 text-center">More Projects</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {otherProjects.map((project) => (
-              <Card key={project.id} className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white/80 backdrop-blur-sm hover:scale-105">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
-                      {project.category}
-                    </span>
-                    <span className={`px-2 py-1 rounded text-xs font-medium ${
-                      project.status === 'Live' ? 'bg-green-100 text-green-800' :
-                      project.status === 'Beta' ? 'bg-blue-100 text-blue-800' :
-                      project.status === 'Development' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-gray-100 text-gray-800'
-                    }`}>
+              <Card key={project.id} className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
+                <div className="relative h-48 overflow-hidden">
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                  
+                  <div className="absolute top-3 right-3">
+                    <Badge className={`${getStatusColor(project.status)} border text-xs`}>
                       {project.status}
-                    </span>
+                    </Badge>
+                  </div>
+                </div>
+
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-2">
+                    <Badge variant="secondary" className="text-xs">
+                      {project.category}
+                    </Badge>
                   </div>
                   
-                  <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
+                  <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                     {project.title}
                   </h4>
                   
@@ -233,26 +261,24 @@ const Projects = () => {
                     ))}
                     {project.tech.length > 3 && (
                       <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium">
-                        +{project.tech.length - 3} more
+                        +{project.tech.length - 3}
                       </span>
                     )}
                   </div>
 
                   <div className="flex gap-3">
-                    <a
-                      href={project.github}
-                      className="flex items-center gap-1 text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors"
-                    >
-                      <Github size={16} />
-                      Code
-                    </a>
-                    <a
-                      href={project.demo}
-                      className="flex items-center gap-1 text-purple-600 hover:text-purple-800 text-sm font-medium transition-colors"
-                    >
-                      <ExternalLink size={16} />
-                      Demo
-                    </a>
+                    <Button variant="ghost" size="sm" asChild>
+                      <a href={project.github} className="flex items-center gap-1 text-xs">
+                        <Github size={14} />
+                        Code
+                      </a>
+                    </Button>
+                    <Button variant="ghost" size="sm" asChild>
+                      <a href={project.demo} className="flex items-center gap-1 text-xs text-blue-600">
+                        <ExternalLink size={14} />
+                        Demo
+                      </a>
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -261,19 +287,31 @@ const Projects = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="text-center bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-8 text-white">
-          <h3 className="text-2xl font-bold mb-4">Want to see more?</h3>
-          <p className="text-purple-100 mb-6 max-w-2xl mx-auto">
-            Check out my GitHub for more projects and contributions to open source
-          </p>
-          <a
-            href="https://github.com"
-            className="inline-flex items-center gap-2 bg-white text-purple-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors"
-          >
-            <Github size={20} />
-            View GitHub Profile
-            <ArrowRight size={16} />
-          </a>
+        <div className="text-center bg-gradient-to-br from-blue-50 via-white to-purple-50 rounded-3xl p-12 border border-gray-100">
+          <div className="max-w-2xl mx-auto">
+            <h3 className="text-3xl font-bold text-gray-900 mb-4">
+              Interested in collaborating?
+            </h3>
+            <p className="text-gray-600 mb-8 text-lg leading-relaxed">
+              I'm always open to discussing new opportunities and exciting projects. 
+              Let's create something amazing together.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Button size="lg" asChild className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                <a href="#contact" className="flex items-center gap-2">
+                  <Sparkles size={20} />
+                  Start a Project
+                </a>
+              </Button>
+              <Button variant="outline" size="lg" asChild>
+                <a href="https://github.com/dattadevc" className="flex items-center gap-2">
+                  <Github size={20} />
+                  View All on GitHub
+                  <ArrowRight size={16} />
+                </a>
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
