@@ -35,7 +35,7 @@ const Index = () => {
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <GitHubContributions username="octocat" />
+                <GitHubContributions username="torvalds" />
                 <LeetCodeContributions username="user123" />
                 <CodeChefContributions username="chef123" />
               </div>

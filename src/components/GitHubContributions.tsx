@@ -13,6 +13,18 @@ interface GitHubStats {
   totalContributions: number;
   currentStreak: number;
   longestStreak: number;
+  publicRepos: number;
+  followers: number;
+  following: number;
+}
+
+interface GitHubUser {
+  login: string;
+  name: string;
+  public_repos: number;
+  followers: number;
+  following: number;
+  avatar_url: string;
 }
 
 const GitHubContributions = ({ username = "octocat" }: { username?: string }) => {
@@ -20,29 +32,63 @@ const GitHubContributions = ({ username = "octocat" }: { username?: string }) =>
   const [stats, setStats] = useState<GitHubStats>({
     totalContributions: 0,
     currentStreak: 0,
-    longestStreak: 0
+    longestStreak: 0,
+    publicRepos: 0,
+    followers: 0,
+    following: 0
   });
+  const [user, setUser] = useState<GitHubUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Generate mock contribution data (replace with real API call)
-  const generateMockData = () => {
-    const data: ContributionDay[] = [];
+  const fetchGitHubUser = async (username: string): Promise<GitHubUser> => {
+    const response = await fetch(`https://api.github.com/users/${username}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch user data: ${response.status}`);
+    }
+    return response.json();
+  };
+
+  const fetchContributionData = async (username: string): Promise<ContributionDay[]> => {
+    // Using GitHub's events API to approximate contribution data
+    const response = await fetch(`https://api.github.com/users/${username}/events/public`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch events: ${response.status}`);
+    }
+    const events = await response.json();
+    
+    // Generate contribution data based on events for the past year
+    const contributions: ContributionDay[] = [];
     const today = new Date();
     const oneYearAgo = new Date(today.getTime() - 365 * 24 * 60 * 60 * 1000);
     
+    // Create a map of dates to contribution counts
+    const contributionMap = new Map<string, number>();
+    
+    events.forEach((event: any) => {
+      const eventDate = new Date(event.created_at).toISOString().split('T')[0];
+      const eventDateObj = new Date(eventDate);
+      
+      if (eventDateObj >= oneYearAgo && eventDateObj <= today) {
+        contributionMap.set(eventDate, (contributionMap.get(eventDate) || 0) + 1);
+      }
+    });
+    
+    // Fill in all dates for the past year
     for (let d = new Date(oneYearAgo); d <= today; d.setDate(d.getDate() + 1)) {
-      const contributionCount = Math.floor(Math.random() * 5);
-      data.push({
-        date: d.toISOString().split('T')[0],
-        contributionCount,
-        contributionLevel: contributionCount > 0 ? Math.min(4, contributionCount) : 0
+      const dateStr = d.toISOString().split('T')[0];
+      const count = contributionMap.get(dateStr) || 0;
+      contributions.push({
+        date: dateStr,
+        contributionCount: count,
+        contributionLevel: Math.min(4, count)
       });
     }
     
-    return data;
+    return contributions;
   };
 
-  const calculateStats = (data: ContributionDay[]): GitHubStats => {
+  const calculateStats = (data: ContributionDay[], userData: GitHubUser): GitHubStats => {
     const total = data.reduce((sum, day) => sum + day.contributionCount, 0);
     
     // Calculate current streak
@@ -70,28 +116,41 @@ const GitHubContributions = ({ username = "octocat" }: { username?: string }) =>
     return {
       totalContributions: total,
       currentStreak,
-      longestStreak
+      longestStreak,
+      publicRepos: userData.public_repos,
+      followers: userData.followers,
+      following: userData.following
     };
   };
 
   useEffect(() => {
-    // Simulate API call
-    const fetchContributions = async () => {
+    const fetchData = async () => {
       setIsLoading(true);
+      setError(null);
       
-      // In a real implementation, you would call:
-      // const response = await fetch(`https://api.github.com/users/${username}/events`);
-      // For now, we'll use mock data
-      
-      setTimeout(() => {
-        const mockData = generateMockData();
-        setContributions(mockData);
-        setStats(calculateStats(mockData));
+      try {
+        console.log(`Fetching GitHub data for user: ${username}`);
+        
+        const [userData, contributionData] = await Promise.all([
+          fetchGitHubUser(username),
+          fetchContributionData(username)
+        ]);
+        
+        console.log('GitHub user data:', userData);
+        console.log('GitHub contributions:', contributionData.length, 'days');
+        
+        setUser(userData);
+        setContributions(contributionData);
+        setStats(calculateStats(contributionData, userData));
+      } catch (err) {
+        console.error('Error fetching GitHub data:', err);
+        setError(err instanceof Error ? err.message : 'Failed to fetch GitHub data');
+      } finally {
         setIsLoading(false);
-      }, 1000);
+      }
     };
 
-    fetchContributions();
+    fetchData();
   }, [username]);
 
   const getContributionColor = (level: number) => {
@@ -148,6 +207,26 @@ const GitHubContributions = ({ username = "octocat" }: { username?: string }) =>
     );
   }
 
+  if (error) {
+    return (
+      <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-xl">
+        <CardContent className="p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <Github className="text-gray-700" size={24} />
+            <h3 className="text-xl font-bold text-gray-900">GitHub Activity</h3>
+          </div>
+          <div className="text-center py-8">
+            <p className="text-red-600 mb-2">Failed to load GitHub data</p>
+            <p className="text-sm text-gray-500">{error}</p>
+            <p className="text-xs text-gray-400 mt-2">
+              Make sure the username "{username}" exists on GitHub
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   const weeks = groupContributionsByWeek(contributions);
 
   return (
@@ -158,6 +237,7 @@ const GitHubContributions = ({ username = "octocat" }: { username?: string }) =>
           <div>
             <h3 className="text-xl font-bold text-gray-900">GitHub Activity</h3>
             <p className="text-sm text-gray-600">@{username}</p>
+            {user?.name && <p className="text-xs text-gray-500">{user.name}</p>}
           </div>
         </div>
 
@@ -165,15 +245,15 @@ const GitHubContributions = ({ username = "octocat" }: { username?: string }) =>
         <div className="grid grid-cols-3 gap-4 mb-6">
           <div className="text-center p-3 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg">
             <div className="text-2xl font-bold text-green-600">{stats.totalContributions}</div>
-            <div className="text-xs text-gray-600">Total Contributions</div>
+            <div className="text-xs text-gray-600">Contributions</div>
           </div>
           <div className="text-center p-3 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg">
-            <div className="text-2xl font-bold text-blue-600">{stats.currentStreak}</div>
-            <div className="text-xs text-gray-600">Current Streak</div>
+            <div className="text-2xl font-bold text-blue-600">{stats.publicRepos}</div>
+            <div className="text-xs text-gray-600">Repositories</div>
           </div>
           <div className="text-center p-3 bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg">
-            <div className="text-2xl font-bold text-purple-600">{stats.longestStreak}</div>
-            <div className="text-xs text-gray-600">Longest Streak</div>
+            <div className="text-2xl font-bold text-purple-600">{stats.followers}</div>
+            <div className="text-xs text-gray-600">Followers</div>
           </div>
         </div>
 
@@ -228,7 +308,7 @@ const GitHubContributions = ({ username = "octocat" }: { username?: string }) =>
           </a>
           <div className="flex items-center gap-1 text-xs text-gray-500">
             <Star size={12} />
-            <span>Live data from GitHub</span>
+            <span>Live data from GitHub API</span>
           </div>
         </div>
       </CardContent>
