@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Github, Calendar, Star } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -27,7 +26,7 @@ interface GitHubUser {
   avatar_url: string;
 }
 
-const GitHubContributions = ({ username = "octocat" }: { username?: string }) => {
+const GitHubContributions = ({ username = "Panchaldatta" }: { username?: string }) => {
   const [contributions, setContributions] = useState<ContributionDay[]>([]);
   const [stats, setStats] = useState<GitHubStats>({
     totalContributions: 0,
@@ -188,7 +187,7 @@ const GitHubContributions = ({ username = "octocat" }: { username?: string }) =>
 
   if (isLoading) {
     return (
-      <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-xl">
+      <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-xl h-96">
         <CardContent className="p-6">
           <div className="flex items-center gap-3 mb-6">
             <Github className="text-gray-700" size={24} />
@@ -209,7 +208,7 @@ const GitHubContributions = ({ username = "octocat" }: { username?: string }) =>
 
   if (error) {
     return (
-      <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-xl">
+      <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-xl h-96">
         <CardContent className="p-6">
           <div className="flex items-center gap-3 mb-6">
             <Github className="text-gray-700" size={24} />
@@ -230,7 +229,7 @@ const GitHubContributions = ({ username = "octocat" }: { username?: string }) =>
   const weeks = groupContributionsByWeek(contributions);
 
   return (
-    <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300">
+    <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 h-96">
       <CardContent className="p-6">
         <div className="flex items-center gap-3 mb-6">
           <Github className="text-gray-700" size={24} />
@@ -242,37 +241,37 @@ const GitHubContributions = ({ username = "octocat" }: { username?: string }) =>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-3 gap-4 mb-4">
           <div className="text-center p-3 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg">
-            <div className="text-2xl font-bold text-green-600">{stats.totalContributions}</div>
+            <div className="text-xl font-bold text-green-600">{stats.totalContributions}</div>
             <div className="text-xs text-gray-600">Contributions</div>
           </div>
           <div className="text-center p-3 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg">
-            <div className="text-2xl font-bold text-blue-600">{stats.publicRepos}</div>
+            <div className="text-xl font-bold text-blue-600">{stats.publicRepos}</div>
             <div className="text-xs text-gray-600">Repositories</div>
           </div>
           <div className="text-center p-3 bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg">
-            <div className="text-2xl font-bold text-purple-600">{stats.followers}</div>
+            <div className="text-xl font-bold text-purple-600">{stats.followers}</div>
             <div className="text-xs text-gray-600">Followers</div>
           </div>
         </div>
 
         {/* Contribution Graph */}
         <div className="mb-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Calendar size={16} className="text-gray-600" />
-            <span className="text-sm text-gray-600">Past year of contributions</span>
+          <div className="flex items-center gap-2 mb-2">
+            <Calendar size={14} className="text-gray-600" />
+            <span className="text-xs text-gray-600">Past year contributions</span>
           </div>
           
           <div className="flex gap-1 overflow-x-auto pb-2">
-            {weeks.map((week, weekIndex) => (
+            {weeks.slice(0, 20).map((week, weekIndex) => (
               <div key={weekIndex} className="flex flex-col gap-1">
                 {Array.from({ length: 7 }, (_, dayIndex) => {
                   const day = week.find((_, i) => i === dayIndex);
                   return (
                     <div
                       key={dayIndex}
-                      className={`w-3 h-3 rounded-sm ${
+                      className={`w-2 h-2 rounded-sm ${
                         day ? getContributionColor(day.contributionLevel) : 'bg-gray-100'
                       }`}
                       title={day ? `${day.contributionCount} contributions on ${day.date}` : ''}
@@ -286,11 +285,11 @@ const GitHubContributions = ({ username = "octocat" }: { username?: string }) =>
           <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
             <span>Less</span>
             <div className="flex gap-1">
-              <div className="w-3 h-3 rounded-sm bg-gray-100"></div>
-              <div className="w-3 h-3 rounded-sm bg-green-200"></div>
-              <div className="w-3 h-3 rounded-sm bg-green-300"></div>
-              <div className="w-3 h-3 rounded-sm bg-green-400"></div>
-              <div className="w-3 h-3 rounded-sm bg-green-500"></div>
+              <div className="w-2 h-2 rounded-sm bg-gray-100"></div>
+              <div className="w-2 h-2 rounded-sm bg-green-200"></div>
+              <div className="w-2 h-2 rounded-sm bg-green-300"></div>
+              <div className="w-2 h-2 rounded-sm bg-green-400"></div>
+              <div className="w-2 h-2 rounded-sm bg-green-500"></div>
             </div>
             <span>More</span>
           </div>
@@ -308,7 +307,7 @@ const GitHubContributions = ({ username = "octocat" }: { username?: string }) =>
           </a>
           <div className="flex items-center gap-1 text-xs text-gray-500">
             <Star size={12} />
-            <span>Live data from GitHub API</span>
+            <span>Live data</span>
           </div>
         </div>
       </CardContent>

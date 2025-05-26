@@ -8,9 +8,7 @@ import Skills from '../components/Skills';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 import AnimatedBackground from '../components/AnimatedBackground';
-import GitHubContributions from '../components/GitHubContributions';
-import LeetCodeContributions from '../components/LeetCodeContributions';
-import CodeChefContributions from '../components/CodeChefContributions';
+import CodingContributionsCarousel from '../components/CodingContributionsCarousel';
 
 const Index = () => {
   return (
@@ -34,11 +32,7 @@ const Index = () => {
                 </p>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <GitHubContributions username="torvalds" />
-                <LeetCodeContributions username="user123" />
-                <CodeChefContributions username="chef123" />
-              </div>
+              <CodingContributionsCarousel />
             </section>
           </div>
           
